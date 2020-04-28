@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void run()
                     {
-                        noteError(R.string.io_exception, cause.getMessage());
+                        noteError(R.string.io_exception, cause != null ? cause.toString() : "No reason given.");
                     }
                 });
             }

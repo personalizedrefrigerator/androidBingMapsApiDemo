@@ -16,12 +16,31 @@ import java.util.Locale;
 
 public class MapLoader implements Runnable
 {
-    // Formatting [(float latitudeCenter), (float longitudeCenter), ([unsigned] int zoomLevel),
+    private enum ViewMode
+    {
+        AERIAL_LABELED("AerialWithLabels"), ROAD("Road"), DARK("CanvasDark"),
+        LIGHT("CanvasLight");
+
+        private final String mKey;
+
+        private ViewMode(String key)
+        {
+            mKey = key;
+        }
+
+        public String getKey()
+        {
+            return mKey;
+        }
+    };
+
+    // Formatting [(String viewMode), (float latitudeCenter), (float longitudeCenter), ([unsigned] int zoomLevel),
     //              ([unsigned] int mapWidth), ([unsigned] int mapHeight),
     //              (float latitudePushpin), (float longitudePushpin), (string key)]
     private static final String MAP_REQUEST_TEMPLATE =
-            "https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/%.4f,%.4f/%d?mapSize=%d,%d&pushpin=%.4f,%.4f&key=%s";
+            "https://dev.virtualearth.net/REST/v1/Imagery/Map/%s/%.4f,%.4f/%d?mapSize=%d,%d&pushpin=%.4f,%.4f&key=%s";
     private static final int MAP_ZOOM_LEVEL = 17;
+    private static final ViewMode MAP_VIEW_MODE = ViewMode.AERIAL_LABELED;
 
     private final double mLat;
     private final double mLong;
@@ -45,7 +64,9 @@ public class MapLoader implements Runnable
 
         try
         {
-            URL url = new URL(String.format(Locale.ENGLISH, MAP_REQUEST_TEMPLATE, mLat, mLong, MAP_ZOOM_LEVEL,
+            URL url = new URL(String.format(Locale.ENGLISH, MAP_REQUEST_TEMPLATE,
+                    MAP_VIEW_MODE.getKey(),
+                    mLat, mLong, MAP_ZOOM_LEVEL,
                     mOptions.getOutputWidth(),
                     mOptions.getOutputHeight(),
                     mLat, mLong, mOptions.getApiKey()));
