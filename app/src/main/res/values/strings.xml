@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BingMaps Demo</string>
+    <string name="latitude_hint">Latitude</string>
+    <string name="longitude_hint">Longitude</string>
+    <string name="api_key_hint">API Key</string>
+    <string name="show_location">Show Location</string>
+    <string name="invalid_input_warning">Invalid Input</string>
+    <string name="io_exception">"General IO Exception: "</string>
+    <string name="invalid_number_input">Number format problem!</string>
+</resources>
